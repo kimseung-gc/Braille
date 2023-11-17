@@ -1,4 +1,11 @@
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+
+/**
+ * A tree made of bits with pointers to the currentNode.
+ * @author Seunghyeon (Hyeon) Kim
+ */
 
 public class BitTree {
   // +--------+------------------------------------------------------
@@ -30,6 +37,7 @@ public class BitTree {
    */
   public BitTree(int layers){
     this.root = new BitTreeNode<String>(null);
+    this.layers = layers;
   } // BitTree(int)
 
   // +---------+-----------------------------------------------------
@@ -55,17 +63,42 @@ public class BitTree {
    * @param bits
    * @return 
    */
-  public String get(String bits){
-    return navigate(bits);
+  public String get(String bits) throws IllegalArgumentException{
+    String temp = navigate(bits);
+    if(temp == null){
+      throw new IllegalArgumentException("Cannot find " + bits);
+    } // if
+    return temp;
   } // get (String)
 
   /**
-   * 
+   * It dumps(prints) the tree in the form of csv format
    * @param pen
    */
   public void dump(PrintWriter pen){
     dump(pen, root, "");
   } // dump (PrintWriter)
+
+  /**
+   * It loads the whatever value inside the source as bits and values.
+   * @param source
+   * @throws IOException
+   */
+  public void load(InputStream source) throws IOException{
+    int temp = source.read();
+    String tempString = "";
+    while(temp != -1){
+      tempString += (char) temp;
+      temp = source.read();
+    } // while
+    String[] tempArr = tempString.split("\n");
+    for(String eachString : tempArr){
+      String[] tempTempArr = eachString.split(",");
+      String bits = tempTempArr[0];
+      String value = tempTempArr[1];
+      this.set(bits, value);
+    } // for
+  } // load(InputStream)
 
   // +---------+-----------------------------------------------------
   // | Helpers |
@@ -77,7 +110,7 @@ public class BitTree {
    */
   private String navigate(String bits){
     /* Resetting the current node to origin */
-    bits = trimZeroesRight(bits);
+    bits = trimZeroesLeft(bits);
     this.currentNode = this.root;
     for(char eachChar : bits.toCharArray()){
       int i = (int)(eachChar - '0');
@@ -93,9 +126,13 @@ public class BitTree {
     return this.currentNode.value;
   } // navigate(String)
 
+  /**
+   * Private method that helps the tree to create missing nodes and navigate to it.
+   * @param bits
+   */
   private void createAndNavigate(String bits){
     /* Resetting the current node to origin */
-    bits = trimZeroesRight(bits);
+    bits = trimZeroesLeft(bits);
     this.currentNode = this.root;
     for(char eachChar : bits.toCharArray()){
       int i = (int)(eachChar - '0');
@@ -113,19 +150,20 @@ public class BitTree {
    * @param bits
    * @return
    */
-  private String trimZeroesRight(String bits){
-    int trimmingInd = bits.length();
-    while(bits.charAt(trimmingInd-1) == '0'){
-      trimmingInd--;
-      if(trimmingInd == 1){
-        return bits.substring(0, trimmingInd);
+  private String trimZeroesLeft(String bits){
+    int trimmingInd = 0;
+    while(bits.charAt(trimmingInd) == '0'){
+      trimmingInd++;
+      if(trimmingInd == bits.length()-1){
+        return bits.substring(trimmingInd, bits.length());
       } // if
     } // while
-    return bits.substring(0, trimmingInd);
-  } // trimZeroesRight(String)
+    return bits.substring(trimmingInd, bits.length());
+  } // trimZeroesLeft(String)
 
   /**
-   * 
+   * The helper function that creates a node in the given direction. If there
+   * already is a value, it leaves the node.
    * @param direction
    * @param current
    * @param val
@@ -164,15 +202,19 @@ public class BitTree {
   /**
    * Dump a portion of the tree to some output location.
    */
-  private void dump(PrintWriter pen, BitTreeNode<String> node, String indent) {
+  private void dump(PrintWriter pen, BitTreeNode<String> node, String preString) {
     if (node == null) {
       return;
     } else {
-      pen.println(indent + node.value);
-      if ((node.left != null) || (node.right != null)) {
-        dump(pen, node.left, indent + "  ");
-        dump(pen, node.right, indent + "  ");
-      } // if has children
-    } // else
+      String additionalString = "";
+      for(int i = 0; i < this.layers-preString.length(); i++){
+        additionalString += "0";
+      } // for
+      pen.println(preString + additionalString + node.value);
+    } // if/else
+    if ((node.left != null) || (node.right != null)) {
+      dump(pen, node.left, preString + "0");
+      dump(pen, node.right, preString + "1");
+    } // if has children
   } // dump
 } // class BitTree
