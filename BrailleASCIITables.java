@@ -49,7 +49,7 @@ public class BrailleASCIITables {
    */
   public String stringToASCII(String inpString) throws IllegalArgumentException, FileSystemNotFoundException, IOException{
     if(inpString.length()%BRAILLEINPLEN != 0){
-      throw new IllegalArgumentException("The input is incomplete braille");
+      throw new IllegalArgumentException("The input is an incomplete braille or invalid input");
     } // if
     String resultingASCII = "";
     String[] temp = splitEveryN(inpString, BRAILLEINPLEN);
@@ -67,7 +67,7 @@ public class BrailleASCIITables {
    */
   public String stringToUniCode(String inpString) throws FileSystemNotFoundException, IOException{
     if(inpString.length()%BRAILLEINPLEN != 0){
-      throw new IllegalArgumentException("The input is incomplete braille or invalid input");
+      throw new IllegalArgumentException("The input is an incomplete braille or invalid input");
     } // if
     String resultingASCII = "";
     String[] temp = splitEveryN(inpString, BRAILLEINPLEN);
@@ -87,7 +87,7 @@ public class BrailleASCIITables {
    * @throws FileSystemNotFoundException
    * @throws IOException
    */
-  public String toBraille(char letter) throws FileSystemNotFoundException, IOException{
+  public String toBraille(char letter) throws FileSystemNotFoundException, IOException, IllegalArgumentException{
     BitTree temp = new BitTree(ASCIIINPLEN);
     InputStream tempInp;
     try {
@@ -98,7 +98,13 @@ public class BrailleASCIITables {
     } // try/catch
     temp.load(tempInp);
     int ASCIIChar = (int)letter;
-    return temp.get(Integer.toBinaryString(ASCIIChar));
+    String ret;
+    try {
+      ret = temp.get(Integer.toBinaryString(ASCIIChar));
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException("Cannot find \'" + letter + "\'");
+    } // try/catch
+    return ret;
   } // toBraille(char)
 
   /**

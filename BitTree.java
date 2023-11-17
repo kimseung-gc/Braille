@@ -66,7 +66,7 @@ public class BitTree {
   public String get(String bits) throws IllegalArgumentException{
     String temp = navigate(bits);
     if(temp == null){
-      throw new IllegalArgumentException("Cannot find " + bits);
+      throw new IllegalArgumentException("Cannot find \'" + bits + "\'");
     } // if
     return temp;
   } // get (String)
