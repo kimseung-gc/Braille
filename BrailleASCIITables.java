@@ -67,7 +67,7 @@ public class BrailleASCIITables {
    */
   public String stringToUniCode(String inpString) throws FileSystemNotFoundException, IOException{
     if(inpString.length()%BRAILLEINPLEN != 0){
-      throw new IllegalArgumentException("The input is incomplete braille");
+      throw new IllegalArgumentException("The input is incomplete braille or invalid input");
     } // if
     String resultingASCII = "";
     String[] temp = splitEveryN(inpString, BRAILLEINPLEN);
