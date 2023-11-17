@@ -11,6 +11,10 @@ import java.nio.file.FileSystemNotFoundException;
  */
 public class BrailleASCIITables {
   /**
+   * integer of hex
+   */
+  final int HEX = 16;
+  /**
    * input length of the braille input
    */
   final int BRAILLEINPLEN = 6;
@@ -135,7 +139,9 @@ public class BrailleASCIITables {
                                           + "Perhaps, you did not download BrailleToUnicode.txt or not in the same path?");
     } // try/catch
     temp.load(tempInp);
-    return temp.get(bits);
+    String resultingCode = temp.get(bits);
+    char ret = (char)Integer.parseInt(resultingCode, 16);
+    return "" + ret;
   } // toASCII(String)
 
   // +---------+-----------------------------------------------------
