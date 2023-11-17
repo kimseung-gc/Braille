@@ -146,7 +146,7 @@ public class BrailleASCIITables {
     } // try/catch
     temp.load(tempInp);
     String resultingCode = temp.get(bits);
-    char ret = (char)Integer.parseInt(resultingCode, 16);
+    char ret = (char)Integer.parseInt(resultingCode, HEX);
     return "" + ret;
   } // toASCII(String)
 
