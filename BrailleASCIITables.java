@@ -11,7 +11,7 @@ import java.nio.file.FileSystemNotFoundException;
  */
 public class BrailleASCIITables {
   /**
-   * integer of hex
+   * integer of hex (16)
    */
   final int HEX = 16;
   /**
@@ -34,10 +34,13 @@ public class BrailleASCIITables {
    * @throws IOException
    */
   public String stringToBraille(String inpString) throws FileSystemNotFoundException, IOException{
+    // create an empty string that will be returned
     String resultingBraille = "";
     for(char eachChar : inpString.toCharArray()){
+      // apply toBraille function to each of the characters in the input string
       resultingBraille += toBraille(eachChar);
     } // for
+    // return the resultant braille structure
     return resultingBraille;
   } // stringToBraille (String)
 
@@ -48,14 +51,20 @@ public class BrailleASCIITables {
    * @throws IOException
    */
   public String stringToASCII(String inpString) throws IllegalArgumentException, FileSystemNotFoundException, IOException{
+    // When invalid input
     if(inpString.length()%BRAILLEINPLEN != 0){
+      // It means the input string is incomplete, so throw an error.
       throw new IllegalArgumentException("The input is an incomplete braille or invalid input");
     } // if
+    // declare an empty string that will be returned
     String resultingASCII = "";
+    // split every 6 indices of the string
     String[] temp = splitEveryN(inpString, BRAILLEINPLEN);
     for(String eachBraille: temp){
+      // apply toASCII function to each of the braille characters and add them
       resultingASCII += toASCII(eachBraille);
     } // for
+    // return the ASCII
     return resultingASCII;
   } // stringToASCII(String)
 
@@ -66,14 +75,20 @@ public class BrailleASCIITables {
    * @throws IOException
    */
   public String stringToUniCode(String inpString) throws FileSystemNotFoundException, IOException{
+    // When invalid input
     if(inpString.length()%BRAILLEINPLEN != 0){
+      // It means the input string is incomplete, so throw an error.
       throw new IllegalArgumentException("The input is an incomplete braille or invalid input");
     } // if
+    // declare an empty string that will be returned
     String resultingASCII = "";
+    // split every 6 indices of the string
     String[] temp = splitEveryN(inpString, BRAILLEINPLEN);
     for(String eachBraille: temp){
+      // convert each braille character to the desired unicode character, and concatenate it with the unicode character
       resultingASCII += toUnicode(eachBraille);
     } // for
+    // Return the unicode characters
     return resultingASCII;
   } // stringToUniCode(String)
 

@@ -36,7 +36,9 @@ public class BitTree {
    * @param layers
    */
   public BitTree(int layers){
+    // Initialize root by creating a new tree node with null value
     this.root = new BitTreeNode<String>(null);
+    // Initialize the layers.
     this.layers = layers;
   } // BitTree(int)
 
@@ -51,10 +53,14 @@ public class BitTree {
    * @throws IllegalArgumentException
    */
   public void set(String bits, String value) throws IllegalArgumentException{
+    // Check whether the bits are valid
     if(!checkBits(bits)){
+      // Otherwise, throw error
       throw new IllegalArgumentException("Invalid bit input");
     } // if
+    // create nodes while navigating to bits
     createAndNavigate(bits);
+    // After navigating, set the currentNode (navigated node)'s value to the desired value
     currentNode.value = value;
   } // set(String, String)
 
@@ -64,10 +70,14 @@ public class BitTree {
    * @return 
    */
   public String get(String bits) throws IllegalArgumentException{
+    // Navigate to the bits with given directions (1 is right and 0 is left)
     String temp = navigate(bits);
+    // When the navigation function maps to null
     if(temp == null){
+      // It means the element cannot be navigated, so throw an error
       throw new IllegalArgumentException("Cannot find \'" + bits + "\'");
     } // if
+    // Otherwise, return the navigated node's string
     return temp;
   } // get (String)
 
@@ -85,17 +95,29 @@ public class BitTree {
    * @throws IOException
    */
   public void load(InputStream source) throws IOException{
+    // read each of the characters as integer and store it as temp
     int temp = source.read();
+    /* ====================== File to temporary string ======================== */
+    // create an empty string
     String tempString = "";
+    // While not reached EOF,
     while(temp != -1){
+      // characterize temp and concatenate it to tempString
       tempString += (char) temp;
+      // then read the next character
       temp = source.read();
     } // while
+    /* ======================================================================== */
+    // Split the string with respective to new lines
     String[] tempArr = tempString.split("\n");
     for(String eachString : tempArr){
+      // split ','s
       String[] tempTempArr = eachString.split(",");
+      // the first index are the bits
       String bits = tempTempArr[0];
+      // the second index are the values associated 
       String value = tempTempArr[1];
+      // then set the bits with desired values
       this.set(bits, value);
     } // for
   } // load(InputStream)
@@ -109,20 +131,26 @@ public class BitTree {
    * @param bits
    */
   private String navigate(String bits){
-    /* Resetting the current node to origin */
+    // Trim the zeroes of the left side of the string (required for efficient storage)
     bits = trimZeroesLeft(bits);
+    // Resetting the current node to origin
     this.currentNode = this.root;
     for(char eachChar : bits.toCharArray()){
+      // for each of the char, make it numeric value
       int i = (int)(eachChar - '0');
       if(i == 0){
+        // When 0, navigate to left
         this.currentNode = this.currentNode.left;
       }else if(i == 1){
+        // When 1, navigate to right
         this.currentNode = this.currentNode.right;
       } // if/else
       if(this.currentNode == null){
+        // When current node is null, it cannot move further, so return null
         return null;
       } // if
     } // for
+    // Otherwise return the value associated with the node that the program has navigated to.
     return this.currentNode.value;
   } // navigate(String)
 
@@ -131,7 +159,7 @@ public class BitTree {
    * @param bits
    */
   private void createAndNavigate(String bits){
-    /* Resetting the current node to origin */
+    // Trim the zeroes of the left side of the string (required for efficient storage)
     bits = trimZeroesLeft(bits);
     this.currentNode = this.root;
     for(char eachChar : bits.toCharArray()){
