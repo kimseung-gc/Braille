@@ -8,7 +8,7 @@ import java.nio.file.FileSystemNotFoundException;
  * that converts the inputs to desired output depending on 
  * the function
  * @author Seunghyeon (Hyeon) Kim
- * @version 0.0.9
+ * @version 0.0.3
  */
 public class BrailleASCIITables {
   /**

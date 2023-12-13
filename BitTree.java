@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 /**
  * A tree made of bits with pointers to the currentNode.
  * @author Seunghyeon (Hyeon) Kim
- * @version 0.0.9
+ * @version 0.0.3
  */
 
 public class BitTree {

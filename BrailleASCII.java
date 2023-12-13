@@ -3,7 +3,7 @@ import java.io.PrintWriter;
 /**
  * Converting Braille to ASCII program.
  * @author Hyeon Kim
- * @version 0.0.9
+ * @version 0.0.3
  */
 
 public class BrailleASCII {
