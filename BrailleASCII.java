@@ -1,5 +1,11 @@
 import java.io.PrintWriter;
 
+/**
+ * Converting Braille to ASCII program.
+ * @author Hyeon Kim
+ * @version 0.0.9
+ */
+
 public class BrailleASCII {
   public static void main(String[] args) throws Exception{
     if(args.length != 2){
