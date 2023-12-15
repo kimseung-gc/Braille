@@ -1,5 +1,6 @@
 /**
  * Nodes in a binary tree.
+ * 
  * @source https://rebelsky.cs.grinnell.edu/Courses/CSC207/2023Fa/labs/tree-traversal.html
  */
 class BitTreeNode<T> {
@@ -12,17 +13,17 @@ class BitTreeNode<T> {
    * The value in this node.
    */
   T value;
-  
+
   /**
    * The left subtree.
    */
   BitTreeNode<T> left;
-  
+
   /**
    * The right subtree.
    */
   BitTreeNode<T> right;
- 
+
   // +--------------+------------------------------------------------
   // | Constructors |
   // +--------------+
@@ -32,7 +33,7 @@ class BitTreeNode<T> {
     this.left = left;
     this.right = right;
   } // BitTreeNode(T, BitTreeNode, BitTreeNode)
-  
+
   public BitTreeNode(T value) {
     this(value, null, null);
   } // BitTreeNode(T)

@@ -2,13 +2,14 @@ import java.io.PrintWriter;
 
 /**
  * Converting Braille to ASCII program.
+ * 
  * @author Hyeon Kim
  * @version 0.0.3
  */
 
 public class BrailleASCII {
-  public static void main(String[] args) throws Exception{
-    if(args.length != 2){
+  public static void main(String[] args) throws Exception {
+    if (args.length != 2) {
       throw new Exception("Invalid number of inputs!");
     } // if
     /* Static initialization of the methods */
